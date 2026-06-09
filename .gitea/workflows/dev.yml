@@ -1,0 +1,14 @@
+name: Deploy Dev
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t cafe-identity:dev -f Identity.API/Dockerfile .
+      - name: Deploy
+        run: cd /opt/cafe && docker compose -f compose.dev.yml up -d
